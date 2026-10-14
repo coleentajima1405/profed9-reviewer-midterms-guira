@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROFED 9 HAIL MARY FULL OF GRACE THE LORD IS WITH US</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --primary-red: #e50914;
+            --primary-hover: #b20710;
+            --text-main: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --border-color: #333333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-dark);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(229, 9, 20, 0.15);
+            border: 1px solid var(--border-color);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary-red);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .mode-btn {
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            background: #2a2a2a;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+        .quiz-box {
+            background: #181818;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .progress-indicator {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .question-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            background: #222222;
+            color: var(--text-main);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: #2a2a2a;
+            border-color: var(--primary-red);
+        }
+        .option-btn.correct {
+            background: #0f3818 !important;
+            border-color: #2e7d32 !important;
+            color: #81c784;
+            font-weight: bold;
+        }
+        .option-btn.incorrect {
+            background: #3d1414 !important;
+            border-color: #c62828 !important;
+            color: #e57373;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            background: #222222;
+            color: var(--text-main);
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+        .action-btn {
+            padding: 10px 20px;
+            background: var(--primary-red);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        .action-btn:hover {
+            background: var(--primary-hover);
+        }
+        .secondary-btn {
+            background: #333333;
+        }
+        .secondary-btn:hover {
+            background: #444444;
+        }
+        .feedback-msg {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+        .feedback-msg.correct {
+            background: #0f3818;
+            color: #81c784;
+            border: 1px solid #2e7d32;
+            display: block;
+        }
+        .feedback-msg.incorrect {
+            background: #3d1414;
+            color: #e57373;
+            border: 1px solid #c62828;
+            display: block;
+        }
+        .next-container {
+            margin-top: 20px;
+            text-align: right;
+            display: none;
+        }
+        .score-card {
+            text-align: center;
+            padding: 30px;
+        }
+        .score-card h2 {
+            color: var(--primary-red);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .score-card p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PROFED 9 HAIL MARY FULL OF GRACE THE LORD IS WITH US</h1>
+    <p class="subtitle"> Philippians 4:6–7: Focuses on replacing anxiety with prayer and experiencing God's peace.</p>
+
+    <div class="mode-selector">
+        <button id="mc-mode-btn" class="mode-btn active" onclick="switchMode('mc')">Multiple Choice (40 Items)</button>
+        <button id="id-mode-btn" class="mode-btn" onclick="switchMode('id')">Identification (40 Items)</button>
+    </div>
+
+    <div id="quiz-container" class="quiz-box"></div>
+</div>
+
+<script>
+    // 40 MULTIPLE CHOICE ITEMS
+    const fullMcData = [
+        { q: "1. Which law provides the statutory framework for intellectual property protection in the Philippines?", options: ["RA 10173", "RA 8293", "RA 10175", "RA 10088"], answer: 1 },
+        { q: "2. What term refers to exclusive financial rights allowing authors to earn gain from reproduction and distribution?", options: ["Moral Rights", "Economic Rights", "Patents", "Trade Secrets"], answer: 1 },
+        { q: "3. Under RA 8293, what is the standard term of protection for an approved patent?", options: ["10 years", "20 years", "50 years", "Life of author + 50 years"], answer: 1 },
+        { q: "4. Which legal exception allows limited use of copyrighted material without permission for teaching, research, or commentary?", options: ["Fair Use", "Safe Harbor", "Public Domain", "Creative Commons"], answer: 0 },
+        { q: "5. Which pillar of academic integrity emphasizes standing up against dishonesty and unethical research shortcuts?", options: ["Honesty", "Trust", "Responsibility and Courage", "Fairness"], answer: 2 },
+        { q: "6. What law governs data privacy compliance when universities archive student papers in Turnitin?", options: ["RA 10173", "RA 10175", "RA 8293", "RA 10088"], answer: 0 },
+        { q: "7. Which citation style is primarily used in education, psychology, and social sciences with an author-date focus?", options: ["MLA", "Chicago", "APA", "IEEE"], answer: 2 },
+        { q: "8. What is the process of searching existing patent documents to ensure an invention or idea is not already known?", options: ["Prior Art Search", "Patent Searching", "Plagiarism Checking", "Data Triangulation"], answer: 1 },
+        { q: "9. Which research problem type focuses on conceptual gaps or unverified models to expand academic literature?", options: ["Practical Research Problem", "Theoretical Research Problem", "Operational Problem", "Action Problem"], answer: 1 },
+        { q: "10. What hypothesis states that there is no significant difference or relationship between variables?", options: ["Alternative Hypothesis", "Null Hypothesis", "Directional Hypothesis", "Experimental Hypothesis"], answer: 1 },
+        { q: "11. What part of research explains how a specific term is measured or observed within the context of the study?", options: ["Conceptual Definition", "Operational Definition", "Theoretical Definition", "Lexical Definition"], answer: 1 },
+        { q: "12. Which qualitative design explores shared, live experiences of several people who went through the same phenomenon?", options: ["Ethnography", "Phenomenology", "Grounded Theory", "Case Study"], answer: 1 },
+        { q: "13. Which qualitative approach collects data, finds patterns, and builds a theory directly from participant responses?", options: ["Narrative Research", "Grounded Theory", "Phenomenology", "Case Study"], answer: 1 },
+        { q: "14. Which quantitative design establishes cause-and-effect relationships with strict variable control and random assignment?", options: ["Descriptive", "Correlational", "Quasi-Experimental", "Experimental"], answer: 3 },
+        { q: "15. Which action research cycle step involves implementing the planned solution in a real setting?", options: ["Planning", "Acting", "Observing", "Reflecting"], answer: 1 },
+        { q: "16. What agency is established by RA 8293 to protect intellectual property rights in the Philippines?", options: ["CHED", "IPOPHL", "DOST", "PRC"], answer: 1 },
+        { q: "17. What type of rights under copyright protect personal connections like author attribution and integrity?", options: ["Economic Rights", "Moral Rights", "Industrial Rights", "Commercial Rights"], answer: 1 },
+        { q: "18. What is the duration of trademark protection under the IP Code, which can be renewed indefinitely?", options: ["5 years", "10 years", "20 years", "50 years"], answer: 1 },
+        { q: "19. Which act specifically penalizes online copyright infringement committed through computer systems?", options: ["RA 10175", "RA 10173", "RA 10088", "RA 8293"], answer: 0 },
+        { q: "20. What citation style uses author-page formatting and is commonly used in literature and the arts?", options: ["APA", "MLA", "Chicago", "IEEE"], answer: 1 },
+        { q: "21. What is the term for knowledge or technology publicly available before a patent filing date?", options: ["Prior Art", "Trade Secret", "Derivative Work", "Public Domain"], answer: 0 },
+        { q: "22. Which problem type focuses on real-world operational challenges and immediate actionable solutions?", options: ["Theoretical Research Problem", "Practical Research Problem", "Conceptual Problem", "Hypothetical Problem"], answer: 1 },
+        { q: "23. What type of hypothesis predicts a significant difference or relationship and is denoted by H_a?", options: ["Null Hypothesis", "Alternative Hypothesis", "Statistical Hypothesis", "Constant Hypothesis"], answer: 1 },
+        { q: "24. What research design explores the life stories and personal experiences of one or a few individuals?", options: ["Ethnography", "Narrative Research", "Case Study", "Phenomenology"], answer: 1 },
+        { q: "25. Which qualitative design studies cultures, communities, and everyday behaviors in their natural environment?", options: ["Ethnography", "Phenomenology", "Grounded Theory", "Narrative"], answer: 0 },
+        { q: "26. What validation method uses multiple data sources, methods, or investigators to strengthen findings?", options: ["Triangulation", "Paraphrasing", "Sampling", "Coding"], answer: 0 },
+        { q: "27. Which quantitative design examines the relationship between variables without manipulating them?", options: ["Experimental", "Quasi-Experimental", "Correlational", "Descriptive"], answer: 2 },
+        { q: "28. What quantitative design examines the effect of an intervention using groups that are NOT randomly assigned?", options: ["Experimental", "Quasi-Experimental", "Correlational", "Descriptive"], answer: 1 },
+        { q: "29. What is the final step in the action research cycle where the researcher evaluates what worked?", options: ["Planning", "Acting", "Observing", "Reflecting"], answer: 3 },
+        { q: "30. Which mixed-methods design collects quantitative data first, followed by qualitative data to explain results?", options: ["Convergent Design", "Explanatory Sequential Design", "Exploratory Sequential Design", "Embedded Design"], answer: 1 },
+        { q: "31. What digital tool is commonly used to create online questionnaires and collect survey responses?", options: ["Google Scholar", "Google Forms", "Zotero", "Microsoft Excel"], answer: 1 },
+        { q: "32. What digital tool is used to organize bibliographic references and format citations automatically?", options: ["Zotero", "Google Forms", "Microsoft Word", "Excel"], answer: 0 },
+        { q: "33. What is the primary backbone of a research study that connects questions, design, and data interpretation?", options: ["Theory", "Budget", "Abstract", "Appendix"], answer: 0 },
+        { q: "34. What section of a research manuscript defines key specialized terms and variables used in the study?", options: ["Definition of Terms", "Review of Related Literature", "Methodology", "Conclusion"], answer: 0 },
+        { q: "35. Which term describes defining a word using the exact measurement or observation method used in the study?", options: ["Conceptual Definition", "Operational Definition", "Lexical Definition", "Theoretical Definition"], answer: 1 },
+        { q: "36. What is the term for taking someone else's work or ideas and passing them off as one's own?", options: ["Citation", "Plagiarism", "Triangulation", "Synthesizing"], answer: 1 },
+        { q: "37. Which international patent system is managed by WIPO for searching global patent records?", options: ["PATENTSCOPE", "Turnitin", "Google Scholar", "CrossRef"], answer: 0 },
+        { q: "38. What type of research gap exists when minimal or no empirical data exists on a specific topic?", options: ["Population Gap", "Knowledge Gap", "Methodological Gap", "Practical Gap"], answer: 1 },
+        { q: "39. What type of research gap occurs when a concept is tested in one demographic but unverified in another?", options: ["Population Gap", "Knowledge Gap", "Methodological Gap", "Theoretical Gap"], answer: 0 },
+        { q: "40. What is the primary goal of Action Research?", options: ["To build abstract academic theories", "To improve a real-world practice or situation", "To test global market patents", "To analyze historical archives"], answer: 1 }
+    ];
+
+    // 40 IDENTIFICATION ITEMS
+    const fullIdData = [
+        { q: "1. What government agency in the Philippines is established under RA 8293 to handle IP registration and enforcement?", answer: "IPOPHL" },
+        { q: "2. What type of author rights protect personal connections like attribution and integrity?", answer: "Moral Rights" },
+        { q: "3. What commercial text-matching tool is widely used by Philippine higher education institutions to check originality?", answer: "Turnitin" },
+        { q: "4. What is the term for public knowledge or technology available before a patent filing date?", answer: "Prior Art" },
+        { q: "5. What variable represents the presumed cause or predictor in an experiment?", answer: "Independent Variable" },
+        { q: "6. What variable represents the measured outcome or effect in a study?", answer: "Dependent Variable" },
+        { q: "7. What qualitative design involves immersing oneself in a community or culture over an extended period?", answer: "Ethnography" },
+        { q: "8. What validation strategy uses multiple data sources, methods, or investigators to strengthen findings?", answer: "Triangulation" },
+        { q: "9. What mixed-methods design collects quantitative data first, followed by qualitative data to explain results?", answer: "Explanatory Sequential Design" },
+        { q: "10. What cyclical research process involves planning, acting, observing, and reflecting to improve local practice?", answer: "Action Research" },
+        { q: "11. What law is known as the Intellectual Property Code of the Philippines?", answer: "RA 8293" },
+        { q: "12. What law is known as the Data Privacy Act of 2012 in the Philippines?", answer: "RA 10173" },
+        { q: "13. What law is known as the Cybercrime Prevention Act of 2012?", answer: "RA 10175" },
+        { q: "14. What exception permits limited use of copyrighted material without permission for research and teaching?", answer: "Fair Use" },
+        { q: "15. What type of copyright rights allow authors to earn financial gain through reproduction and distribution?", answer: "Economic Rights" },
+        { q: "16. What term refers to a concept formulated to explain, predict, and understand a phenomenon?", answer: "Theory" },
+        { q: "17. What framework illustrates the blueprint and key variables of a specific research project?", answer: "Conceptual Framework" },
+        { q: "18. What hypothesis states that there is no significant difference or relationship between variables?", answer: "Null Hypothesis" },
+        { q: "19. What hypothesis is the opposite of the null hypothesis and predicts a significant relationship?", answer: "Alternative Hypothesis" },
+        { q: "20. What definition explains a term based on its general or theoretical meaning?", answer: "Conceptual Definition" },
+        { q: "21. What definition explains how a term is specifically measured or observed in a study?", answer: "Operational Definition" },
+        { q: "22. What qualitative research design explores shared, live experiences of several people who went through the same phenomenon?", answer: "Phenomenology" },
+        { q: "23. What qualitative research design uses personal stories and chronological accounts of one or a few individuals?", answer: "Narrative Research" },
+        { q: "24. What qualitative research design develops a theory directly from participant data through coding and categorization?", answer: "Grounded Theory" },
+        { q: "25. What qualitative research design provides a deep, detailed investigation of a single specific unit or setting?", answer: "Case Study" },
+        { q: "26. What quantitative design describes the current characteristics or situation of a group using surveys?", answer: "Descriptive Research" },
+        { q: "27. What quantitative design establishes cause-and-effect with strict variable control and random assignment?", answer: "Experimental Research" },
+        { q: "28. What quantitative design tests cause-and-effect using pre-existing groups without random assignment?", answer: "Quasi-Experimental Research" },
+        { q: "29. What type of research problem focuses on conceptual gaps and expanding academic literature?", answer: "Theoretical Research Problem" },
+        { q: "30. What type of research gap exists when a concept is tested in one demographic but unverified in another?", answer: "Population Gap" },
+        { q: "31. What tool is widely used to organize references and generate bibliographies automatically?", answer: "Zotero" },
+        { q: "32. What search engine is commonly used by researchers to locate credible scholarly literature online?", answer: "Google Scholar" },
+        { q: "33. What international patent database is provided by WIPO for searching global records?", answer: "PATENTSCOPE" },
+        { q: "34. What term describes the act of restating an author's concepts entirely in your own words with proper citation?", answer: "Paraphrase" },
+        { q: "35. What is the term for a formal reference within the text pointing readers to the end-text bibliography?", answer: "Citation" },
+        { q: "36. What is the list of all sources cited in the body of a paper, located at the end of the document?", answer: "Reference List" },
+        { q: "37. Which academic integrity pillar involves maintaining honesty and truthfulness in scholarship?", answer: "Honesty" },
+        { q: "38. What mixed-methods design collects quantitative and qualitative data simultaneously and integrates them?", answer: "Convergent Design" },
+        { q: "39. What mixed-methods design collects qualitative data first to explore concepts, followed by quantitative data?", answer: "Exploratory Sequential Design" },
+        { q: "40. What is the term for software or tools like Google Forms and Excel used to support research processes?", answer: "Technology" }
+    ];
+
+    let currentMode = 'mc';
+    let dataset = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let wrongItems = [];
+    let isReviewingWrong = false;
+
+    function switchMode(mode) {
+        currentMode = mode;
+        isReviewingWrong = false;
+        dataset = currentMode === 'mc' ? [...fullMcData] : [...fullIdData];
+        resetQuiz();
+
+        document.getElementById('mc-mode-btn').classList.toggle('active', mode === 'mc');
+        document.getElementById('id-mode-btn').classList.toggle('active', mode === 'id');
+
+        loadQuestion();
+    }
+
+    function resetQuiz() {
+        currentIndex = 0;
+        score = 0;
+        answered = false;
+        wrongItems = [];
+    }
+
+    function startWrongReview() {
+        if (wrongItems.length === 0) return;
+        dataset = [...wrongItems];
+        currentIndex = 0;
+        score = 0;
+        wrongItems = [];
+        isReviewingWrong = true;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        answered = false;
+        const container = document.getElementById('quiz-container');
+
+        if (currentIndex >= dataset.length) {
+            let actionButtons = `<button class="action-btn" onclick="switchMode('${currentMode}')">Restart Full Review</button>`;
+            if (wrongItems.length > 0) {
+                actionButtons += `<button class="action-btn secondary-btn" onclick="startWrongReview()">Review Wrong Answers (${wrongItems.length})</button>`;
+            }
+
+            container.innerHTML = `
+                <div class="score-card">
+                    <h2>${isReviewingWrong ? 'Wrong Answers Review Completed! 🎯' : 'Review Completed! 🔥'}</h2>
+                    <p>Your Final Score: <strong>${score}</strong> out of <strong>${dataset.length}</strong></p>
+                    <div>${actionButtons}</div>
+                </div>
+            `;
+            isReviewingWrong = false;
+            return;
+        }
+
+        const item = dataset[currentIndex];
+        let html = `
+            <div class="progress-indicator">${currentMode === 'mc' ? 'Multiple Choice' : 'Identification'} — Question ${currentIndex + 1} of ${dataset.length} ${isReviewingWrong ? '(Wrong Answers Retest)' : ''}</div>
+            <div class="question-title">${item.q}</div>
+        `;
+
+        if (currentMode === 'mc') {
+            html += `<div class="options-grid">`;
+            item.options.forEach((opt, idx) => {
+                html += `<button class="option-btn" id="opt-${idx}" onclick="checkMC(${idx})">${opt}</button>`;
+            });
+            html += `</div>`;
+        } else {
+            html += `
+                <input type="text" id="id-input" placeholder="Type your answer here..." autocomplete="off">
+                <button class="action-btn" onclick="checkID()">Submit Answer</button>
+            `;
+        }
+
+        html += `
+            <div id="feedback" class="feedback-msg"></div>
+            <div id="next-box" class="next-container">
+                <button class="action-btn" onclick="nextQuestion()">Next Question &rarr;</button>
+            </div>
+        `;
+
+        container.innerHTML = html;
+        if(currentMode === 'id') {
+            document.getElementById('id-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') checkID();
+            });
+        }
+    }
+
+    function checkMC(selectedIndex) {
+        if (answered) return;
+        answered = true;
+
+        const item = dataset[currentIndex];
+        const correctIndex = item.answer;
+        const feedback = document.getElementById('feedback');
+
+        for (let i = 0; i < 4; i++) {
+            document.getElementById(`opt-${i}`).disabled = true;
+        }
+
+        if (selectedIndex === correctIndex) {
+            document.getElementById(`opt-${selectedIndex}`).classList.add('correct');
+            feedback.innerHTML = "Correct! Spot on.";
+            feedback.className = "feedback-msg correct";
+            score++;
+        } else {
+            document.getElementById(`opt-${selectedIndex}`).classList.add('incorrect');
+            document.getElementById(`opt-${correctIndex}`).classList.add('correct');
+            feedback.innerHTML = `Incorrect. Correct answer: <strong>${item.options[correctIndex]}</strong>`;
+            feedback.className = "feedback-msg incorrect";
+            wrongItems.push(item);
+        }
+
+        document.getElementById('next-box').style.display = 'block';
+    }
+
+    function checkID() {
+        if (answered) return;
+        
+        const userVal = document.getElementById('id-input').value.trim().toLowerCase();
+        if (!userVal) return;
+
+        answered = true;
+        const item = dataset[currentIndex];
+        const correctVal = item.answer.toLowerCase();
+        const feedback = document.getElementById('feedback');
+
+        document.getElementById('id-input').disabled = true;
+
+        if (userVal === correctVal || correctVal.includes(userVal)) {
+            feedback.innerHTML = "Correct!";
+            feedback.className = "feedback-msg correct";
+            score++;
+        } else {
+            feedback.innerHTML = `Incorrect. Expected answer: <strong>${item.answer}</strong>`;
+            feedback.className = "feedback-msg incorrect";
+            wrongItems.push(item);
+        }
+
+        document.getElementById('next-box').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        loadQuestion();
+    }
+
+    window.onload = () => switchMode('mc');
+</script>
+
+</body>
+</html>
